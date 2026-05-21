@@ -170,3 +170,21 @@ void mutation(int state[]) {
         state[randomColumn] = randomRow;
     }
 }
+
+// تقوم الدالة بطباعة بيانات الجيل 
+void printGeneration(
+    int generation,
+    int population[POP_SIZE][N],
+    ostream &out
+) {
+    out << "\n====================================\n";
+    out << "Generation Number: " << generation << endl;
+    out << "====================================\n";
+
+    for (int i = 0; i < POP_SIZE; i++) {
+        out << "\nIndividual Number: " << i + 1 << endl;
+        out << "h = " << calculateConflicts(population[i]) << endl;
+        printStateLine(population[i], out);
+        printBoard(population[i], out);
+    }
+}
