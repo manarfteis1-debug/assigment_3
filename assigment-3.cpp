@@ -100,3 +100,30 @@ void generateSuccessors(int initialState[], int population[POP_SIZE][N]) {
         }
     }
 }
+
+// دالة لاختيار الآباء تعتمد على إعطاء فرصة أكبر للحلول التي تحتوي على تعارض أقل
+void rouletteWheelSelection(int population[POP_SIZE][N], int selectedParent[]) {
+    int fitness[POP_SIZE];
+    int totalFitness = 0;
+
+    for (int i = 0; i < POP_SIZE; i++) {
+        int h = calculateConflicts(population[i]);
+
+        fitness[i] = 100 / (1 + h);
+        totalFitness += fitness[i];
+    }
+
+    int randomValue = randomNumber(totalFitness);
+    int sum = 0;
+
+    for (int i = 0; i < POP_SIZE; i++) {
+        sum += fitness[i];
+
+        if (sum >= randomValue) {
+            copyState(population[i], selectedParent);
+            return;
+        }
+    }
+
+    copyState(population[0], selectedParent);
+}
