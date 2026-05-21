@@ -52,3 +52,12 @@ void copyState(int source[], int destination[]) {
         destination[i] = source[i];
     }
 }
+
+// تقوم بطباعة ارقام صفوف الملكات في سطر واحد 
+void printStateLine(int state[], ostream &out) {
+    out << "State: ";
+    for (int i = 0; i < N; i++) {
+        out << state[i] + 1 << " ";
+    }
+    out << endl;
+}
