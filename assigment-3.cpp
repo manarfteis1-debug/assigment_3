@@ -21,3 +21,9 @@ int simpleRandom() {
 int randomNumber(int maxValue) {
     return simpleRandom() % maxValue;
 }
+
+// قيمة مطلقة 
+int myAbs(int x) {
+    if (x < 0) return -x;
+    return x;
+}
