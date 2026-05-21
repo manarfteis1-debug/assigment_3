@@ -45,3 +45,10 @@ int calculateConflicts(int state[]) {
 
     return conflicts;
 }
+
+// نسخ المصفوفة الاصليه في مصفوفة جديدة للحفاظ على قيمتها 
+void copyState(int source[], int destination[]) {
+    for (int i = 0; i < N; i++) {
+        destination[i] = source[i];
+    }
+}
