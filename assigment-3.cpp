@@ -81,3 +81,22 @@ void printBoard(int state[], ostream &out) {
 
     out << "+---+---+---+---+---+---+---+---+\n";
 }
+
+// دالة تقوم بتوليد حالات جديدة  56 حالة جديدة من خلال تحريك ملكه في كل مره 
+void generateSuccessors(int initialState[], int population[POP_SIZE][N]) {
+    int index = 0;
+
+    for (int col = 0; col < N; col++) {
+        for (int row = 0; row < N; row++) {
+
+            if (row != initialState[col]) {
+                for (int i = 0; i < N; i++) {
+                    population[index][i] = initialState[i];
+                }
+
+                population[index][col] = row;
+                index++;
+            }
+        }
+    }
+}
