@@ -148,7 +148,7 @@ void tournamentSelection(int population[POP_SIZE][N], int selectedParent[]) {
     copyState(population[bestIndex], selectedParent);
 }
 
-
+// تقوم الدالة بدمج صفات الاب الاول مع التاني لانتاج ابن جديد  
 void crossover(int parent1[], int parent2[], int child[]) {
     for (int i = 0; i < 4; i++) {
         child[i] = parent1[i];
@@ -156,5 +156,17 @@ void crossover(int parent1[], int parent2[], int child[]) {
 
     for (int i = 4; i < N; i++) {
         child[i] = parent2[i];
+    }
+}
+
+ // داله تاخد الابن الجديد وتقوم بعمل طفره بناء على نسبة احتمال
+void mutation(int state[]) {
+    int randomValue = randomNumber(100);
+
+    if (randomValue < MUTATION_RATE) {
+        int randomColumn = randomNumber(N);
+        int randomRow = randomNumber(N);
+
+        state[randomColumn] = randomRow;
     }
 }
