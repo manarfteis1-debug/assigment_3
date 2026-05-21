@@ -188,3 +188,114 @@ void printGeneration(
         printBoard(population[i], out);
     }
 }
+
+// تقوم الدالة بتنفيد الخوارزمية الجينية بالكامل لايجاد الحل وتحفظ النتائج في ملف
+void runGeneticAlgorithm(
+    int firstPopulation[POP_SIZE][N],
+    int selectionType,
+    const char fileName[]
+) {
+    ofstream file(fileName);
+
+    int population[POP_SIZE][N];
+    int newPopulation[POP_SIZE][N];
+
+    for (int i = 0; i < POP_SIZE; i++) {
+        for (int j = 0; j < N; j++) {
+            population[i][j] = firstPopulation[i][j];
+        }
+    }
+
+    clock_t startTime = clock();
+
+    if (selectionType == 1) {
+        cout << "\nRunning Roulette Wheel Selection...\n";
+        file << "Genetic Algorithm Using Roulette Wheel Selection\n";
+    } else {
+        cout << "\nRunning Tournament Selection...\n";
+        file << "Genetic Algorithm Using Tournament Selection\n";
+    }
+
+    for (int generation = 1; generation <= MAX_GENERATIONS; generation++) {
+
+        printGeneration(generation, population, file);
+
+        int bestIndex = 0;
+        int bestH = calculateConflicts(population[0]);
+
+        for (int i = 1; i < POP_SIZE; i++) {
+            int h = calculateConflicts(population[i]);
+
+            if (h < bestH) {
+                bestH = h;
+                bestIndex = i;
+            }
+        }
+
+        cout << "Generation " << generation
+             << " | Best h = " << bestH << endl;
+
+        file << "\nBest State In This Generation:\n";
+        file << "Best h = " << bestH << endl;
+        printStateLine(population[bestIndex], file);
+        printBoard(population[bestIndex], file);
+
+        if (bestH == 0) {
+            clock_t endTime = clock();
+            double totalTime =
+                double(endTime - startTime) / CLOCKS_PER_SEC;
+
+            cout << "\nGoal Found!\n";
+            cout << "Time = " << totalTime << " seconds\n";
+            cout << "Results saved in: " << fileName << endl;
+
+            file << "\n====================================\n";
+            file << "GOAL FOUND\n";
+            file << "Generation = " << generation << endl;
+            file << "Time = " << totalTime << " seconds\n";
+            file << "Final Solution:\n";
+            printStateLine(population[bestIndex], file);
+            printBoard(population[bestIndex], file);
+
+            file.close();
+            return;
+        }
+
+        for (int i = 0; i < POP_SIZE; i++) {
+            int parent1[N];
+            int parent2[N];
+            int child[N];
+
+            if (selectionType == 1) {
+                rouletteWheelSelection(population, parent1);
+                rouletteWheelSelection(population, parent2);
+            } else {
+                tournamentSelection(population, parent1);
+                tournamentSelection(population, parent2);
+            }
+
+            crossover(parent1, parent2, child);
+            mutation(child);
+
+            copyState(child, newPopulation[i]);
+        }
+
+        for (int i = 0; i < POP_SIZE; i++) {
+            for (int j = 0; j < N; j++) {
+                population[i][j] = newPopulation[i][j];
+            }
+        }
+    }
+
+    clock_t endTime = clock();
+    double totalTime = double(endTime - startTime) / CLOCKS_PER_SEC;
+
+    cout << "\nGoal Not Found.\n";
+    cout << "Time = " << totalTime << " seconds\n";
+    cout << "Results saved in: " << fileName << endl;
+
+    file << "\nGOAL NOT FOUND\n";
+    file << "Time = " << totalTime << " seconds\n";
+
+    file.close();
+}
