@@ -147,3 +147,14 @@ void tournamentSelection(int population[POP_SIZE][N], int selectedParent[]) {
 
     copyState(population[bestIndex], selectedParent);
 }
+
+
+void crossover(int parent1[], int parent2[], int child[]) {
+    for (int i = 0; i < 4; i++) {
+        child[i] = parent1[i];
+    }
+
+    for (int i = 4; i < N; i++) {
+        child[i] = parent2[i];
+    }
+}
