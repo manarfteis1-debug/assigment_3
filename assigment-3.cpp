@@ -299,3 +299,52 @@ void runGeneticAlgorithm(
 
     file.close();
 }
+
+int main() {
+    int initialState[N];
+    int population[POP_SIZE][N];
+
+    cout << "8-Queens Problem Using Genetic Algorithm\n";
+    cout << "Enter queen positions from LEFT to RIGHT.\n";
+    cout << "Each number is the row of the queen in that column.\n";
+    cout << "Rows must be from 1 to 8.\n\n";
+
+    cout << "Enter 8 numbers: ";
+
+    for (int i = 0; i < N; i++) {
+        cin >> initialState[i];
+
+        initialState[i]--;
+
+        if (initialState[i] < 0 || initialState[i] >= N) {
+            cout << "Invalid input. Rows must be from 1 to 8.\n";
+            return 0;
+        }
+    }
+
+    cout << "\nInitial State h = "
+         << calculateConflicts(initialState) << endl;
+
+    generateSuccessors(initialState, population);
+
+    cout << "Number of generated successor states = 56\n";
+
+    runGeneticAlgorithm(
+        population,
+        1,
+        "roulette_results.txt"
+    );
+
+    runGeneticAlgorithm(
+        population,
+        2,
+        "tournament_results.txt"
+    );
+
+    cout << "\nFinished.\n";
+    cout << "Check these files:\n";
+    cout << "roulette_results.txt\n";
+    cout << "tournament_results.txt\n";
+
+    return 0;
+}
