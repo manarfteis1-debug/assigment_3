@@ -61,3 +61,23 @@ void printStateLine(int state[], ostream &out) {
     }
     out << endl;
 }
+
+// دالة لطباعة شكل المصفوفة كرسمة في ملف واماكن الملكات
+void printBoard(int state[], ostream &out) {
+    out << "\nChess Board:\n";
+
+    for (int row = 0; row < N; row++) {
+        out << "+---+---+---+---+---+---+---+---+\n";
+
+        for (int col = 0; col < N; col++) {
+            if (state[col] == row)
+                out << "| Q ";
+            else
+                out << "|   ";
+        }
+
+        out << "|\n";
+    }
+
+    out << "+---+---+---+---+---+---+---+---+\n";
+}
