@@ -27,3 +27,21 @@ int myAbs(int x) {
     if (x < 0) return -x;
     return x;
 }
+
+// دالة تحسب تعارضات (h)
+int calculateConflicts(int state[]) {
+    int conflicts = 0;
+
+    for (int i = 0; i < N; i++) {
+        for (int j = i + 1; j < N; j++) {
+
+            if (state[i] == state[j])
+                conflicts++;
+
+            if (myAbs(state[i] - state[j]) == myAbs(i - j))
+                conflicts++;
+        }
+    }
+
+    return conflicts;
+}
