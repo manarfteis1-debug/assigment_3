@@ -127,3 +127,23 @@ void rouletteWheelSelection(int population[POP_SIZE][N], int selectedParent[]) {
 
     copyState(population[0], selectedParent);
 }
+
+// دالة تختار عدد من الافراد عشوائيا وتاخد الأقل تعارض بينهم ليكون هو الاب
+void tournamentSelection(int population[POP_SIZE][N], int selectedParent[]) {
+    int tournamentSize = 5;
+
+    int bestIndex = randomNumber(POP_SIZE);
+    int bestH = calculateConflicts(population[bestIndex]);
+
+    for (int i = 1; i < tournamentSize; i++) {
+        int randomIndex = randomNumber(POP_SIZE);
+        int currentH = calculateConflicts(population[randomIndex]);
+
+        if (currentH < bestH) {
+            bestH = currentH;
+            bestIndex = randomIndex;
+        }
+    }
+
+    copyState(population[bestIndex], selectedParent);
+}
